@@ -1,0 +1,35 @@
+  
+#######################################
+# Syntax Coloring Map For GY271_HMC5883L
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+MagnetometerScaled	KEYWORD1
+MagnetometerRaw	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+HMC5883L			KEYWORD2
+begin				KEYWORD2
+setGain				KEYWORD2
+setMeasurementMode		KEYWORD2
+setDeclinationAngle		KEYWORD2
+initCalibration			KEYWORD2
+getGainRange 			KEYWORD2
+getGainResolution		KEYWORD2
+getModeRegister			KEYWORD2
+getDeclinationRadians		KEYWORD2
+getCalibrationOffsets		KEYWORD2
+getRawAxis			KEYWORD2
+getScaledAxis			KEYWORD2
+getCompassDegrees		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+SENSOR_GAIN			LITERAL1
+MEASUREMENT			LITERAL1
+DECLINATION			LITERAL1

@@ -1,0 +1,22 @@
+{
+    "name": "GY271_HMC5883L",
+    "keywords": "imu, digital compass, magnetometer",
+    "description": "3-Axis digital compass to get the geographic direction of the X-axis.",
+    "repository":{
+        "type": "git",
+        "url": "https://github.com/helviorubens/ESP8266-IMU.git"
+    },
+    "version": "1.0",
+    "examples": "examples/*/*.ino",
+    "frameworks": "arduino",
+    "platforms": [
+        "atmelavr",
+        "espressif8266",
+        "espressif32"
+    ],
+    "dependencies": [
+        {
+        "name": "Wire"
+        }
+    ]
+}
