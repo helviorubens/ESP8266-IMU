@@ -34,3 +34,6 @@ If you prefer not to use the *Visual Studio Code*, the library and examples are 
 </div>
 <br/>
 
+# HOW TO USE
+
+![how-to-use](https://drive.google.com/file/d/1Tm5F-_SiYsrMNq0iUvTe3KLhOdB2CoCz)
