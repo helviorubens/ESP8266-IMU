@@ -2,30 +2,32 @@
   <h1>GY-271 (HMC5883L) 3-Axis Magnetometer</h1>
   
   ![license](https://badgen.net/github/license/helviorubens/ESP8266-IMU)
+  ![commits](https://badgen.net/github/commits/helviorubens/ESP8266-IMU/)
   ![last-commit](https://badgen.net/github/last-commit/helviorubens/ESP8266-IMU)
   [![twitter](https://badgen.net/badge/icon/helviorubens?icon=twitter&label)](https://twitter.com/helviorubens)
     
   <h3>Library for magnetometer as digital compass, to get the geographic direction of the X-axis (0° NORTH)</h3>
   
   | <a href="#disclaimer">DISCLAIMER</a>
-  | <a href="#editor">EDITOR</a>
   | <a href="#how-to-use">HOW TO USE</a>|
   
 </div>
 
 # DISCLAIMER
 
+## About Development
+
+**THIS LIBRARY AND EXAMPLES ARE UNDER DEVELOPMENT!**
+
+I used only *NodeMCU/ESP8266* to perform the tests. There is compatibility with other boards, *e.g.*, Arduino UNO and ESP32. Sometimes minor code changes are necessary, but this is not in the scope of this project.
+
+## About Original Library
+
 I did use the **[Grove_3Axis_Digital_Compass_HMC5883L library](https://github.com/Seeed-Studio/Grove_3Axis_Digital_Compass_HMC5883L)** by *Seeed Studio* to implement my own library, with new reviewed methods and functionalities. The original author is *Frankie* Chu, and *Yihui Xiong* as collaborator. The original library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-<br/>
-<div align="right">
-    <b><a href="#home">▲ back to HOME</a></b>
-</div>
-<br/>
+## About Code Editor
 
-# EDITOR
-
-This library and examples have been tested with [**Arduino IDE**](https://www.arduino.cc/) and written with [*Visual Studio Code*](https://code.visualstudio.com/) as source code editor, using the extension *Arduino for Visual Studio Code* by Microsoft. If you want to install this extension, I used the Paul Lunn tutorial on his website [*Maker Pro*](https://maker.pro/arduino/tutorial/how-to-use-visual-studio-code-for-arduino).
+This library and examples have been tested with [**Arduino IDE**](https://www.arduino.cc/) and written with [*Visual Studio Code*](https://code.visualstudio.com/) as source code editor, using the extension *Arduino for Visual Studio Code* by Microsoft. If you want to install it, I used the Paul Lunn tutorial on his website [*Maker Pro*](https://maker.pro/arduino/tutorial/how-to-use-visual-studio-code-for-arduino).
 
 If you prefer not to use the *Visual Studio Code*, the library and examples are **100% compatible with Arduino IDE**.
 
@@ -51,7 +53,7 @@ Choose one of them to set the scale of compass and get a proper values measureme
 
 ## MEASUREMENT MODE
 
-The *measurement mode* has 3 predefined values: `MEASUREMENT_CONTINUOUS`, `MEASUREMENT_SINGLE` AND `MEASUREMENT_IDLE`. These operating modes are related to the power management of the device.
+The *measurement mode* has 3 predefined values: `MEASUREMENT_CONTINUOUS`, `MEASUREMENT_SINGLE` and `MEASUREMENT_IDLE`. These operating modes are related to the power management of the device.
 
 * `MEASUREMENT_CONTINUOUS`: the device continuously makes measurements, at user selectable rate, and places measured data in data output registers.
 
