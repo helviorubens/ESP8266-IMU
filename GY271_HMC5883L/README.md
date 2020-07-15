@@ -8,28 +8,45 @@
     
   <h3>Library for magnetometer as digital compass, to get the geographic direction of the X-axis (0° NORTH)</h3>
   
-  | <a href="#disclaimer">DISCLAIMER</a>
-  | <a href="#how-to-use">HOW TO USE</a>|
+  | <a href="#installation">INSTALLATION</a>
+  | <a href="#setup">SETUP</a>
+  | <a href="#disclaimer">DISCLAIMER</a>|
   
 </div>
 
-# DISCLAIMER
+# INSTALLATION
 
-## About Development
+## Cloning the Repository Using Command Line
 
-**THIS LIBRARY AND EXAMPLES ARE UNDER DEVELOPMENT!**
+1. Under the repository name, click on "Code" button and copy the URL
 
-I used only *NodeMCU/ESP8266* to perform the tests. There is compatibility with other boards, *e.g.*, Arduino UNO and ESP32. Sometimes minor code changes are necessary, but this is not in the scope of this project.
+2. Open Git Bash and change the directory to the location where you want to save the cloned repository
 
-## About Original Library
+3. Type `git clone` and paste the URL you copied earlier.
 
-I did use the **[Grove_3Axis_Digital_Compass_HMC5883L library](https://github.com/Seeed-Studio/Grove_3Axis_Digital_Compass_HMC5883L)** by *Seeed Studio* to implement my own library, with new reviewed methods and functionalities. The original author is *Frankie* Chu, and *Yihui Xiong* as collaborator. The original library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+    `$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY`
 
-## About Code Editor
+4. Press ENTER to download and create your local clone repository
 
-This library and examples have been tested with [**Arduino IDE**](https://www.arduino.cc/) and written with [*Visual Studio Code*](https://code.visualstudio.com/) as source code editor, using the extension *Arduino for Visual Studio Code* by Microsoft. If you want to install it, I used the Paul Lunn tutorial on his website [*Maker Pro*](https://maker.pro/arduino/tutorial/how-to-use-visual-studio-code-for-arduino).
+## Open with GitHub Desktop
 
-If you prefer not to use the *Visual Studio Code*, the library and examples are **100% compatible with Arduino IDE**.
+1. To clone your repository in [GitHub Desktop](https://desktop.github.com/), click on "*Code*" button and under "*Clone with HTTPS*", click "*Open with GitHub Desktop*"
+
+2. Follow the instructions to complete the clone to your local repository.
+
+## Installing Using Library Manager
+
+1. Click on "*Code*" button and then "Download ZIP"
+
+2. At Arduino IDE go to menu **Sketch > Include library > Add .ZIP Library...**
+
+3. Select the zip file downloaded and import
+
+## Manual Installation
+
+1. Click on "*Code*" button and then "Download ZIP"
+
+2. Unzip and move the files to your Arduino libraries folder
 
 <br/>
 <div align="right">
@@ -37,7 +54,7 @@ If you prefer not to use the *Visual Studio Code*, the library and examples are 
 </div>
 <br/>
 
-# HOW TO USE
+# SETUP
 
 There are 3 global variables to setting sensor parameters: `SENSOR_GAIN`, `MEASUREMENT` and `DECLINATION`.
 
@@ -77,3 +94,26 @@ This value is important for accurate measurements, because the magnetic field is
 </div>
 <br/>
 
+# DISCLAIMER
+
+## About Development
+
+**THIS LIBRARY AND EXAMPLES ARE UNDER DEVELOPMENT!**
+
+I used only *NodeMCU/ESP8266* to perform the tests. There is compatibility with other boards, *e.g.*, Arduino UNO and ESP32. Sometimes minor code changes are necessary, but this is not in the scope of this project.
+
+## About Original Library
+
+I did use the **[Grove_3Axis_Digital_Compass_HMC5883L library](https://github.com/Seeed-Studio/Grove_3Axis_Digital_Compass_HMC5883L)** by *Seeed Studio* to implement my own library, with new reviewed methods and functionalities. The original author is *Frankie* Chu, and *Yihui Xiong* as collaborator. The original library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+
+## About Code Editor
+
+This library and examples have been tested with [**Arduino IDE**](https://www.arduino.cc/) and written with [*Visual Studio Code*](https://code.visualstudio.com/) as source code editor, using the extension *Arduino for Visual Studio Code* by Microsoft. If you want to install it, I used the Paul Lunn tutorial on his website [*Maker Pro*](https://maker.pro/arduino/tutorial/how-to-use-visual-studio-code-for-arduino).
+
+If you prefer not to use the *Visual Studio Code*, the library and examples are **100% compatible with Arduino IDE**.
+
+<br/>
+<div align="right">
+    <b><a href="#home">▲ back to HOME</a></b>
+</div>
+<br/>
