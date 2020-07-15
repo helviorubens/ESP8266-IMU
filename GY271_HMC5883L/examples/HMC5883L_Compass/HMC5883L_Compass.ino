@@ -3,7 +3,7 @@
  * Function: Get the geographic direction of the X-axis as digital compass (0° points to the NORTH)
  * 
  * Hardware setup:
- * MPU6050 Breakout --------- Arduino --------- NODEMCU/ESP8266
+ * GY-271/HMC5883L ---------- Arduino --------- NODEMCU/ESP8266
  * VCC ---------------------- 5V -------------- Vin (5V)
  * SDA ---------------------- A4 -------------- D2(GPIO4)
  * SCL ---------------------- A5 -------------- D1(GPIO5)
