@@ -62,12 +62,10 @@ class HMC5883L{
     public:
         HMC5883L();
 
-        //void begin(float gain, uint8_t mode);
         void begin(float gain, uint8_t mode, float declination);
 
         void setGain(float gain);
         void setMeasurementMode(uint8_t mode);
-        //void setDeclinationAngle(int degree, int minute, char direction);
         void setDeclinationAngle(float declination);
         
         void initCalibration();

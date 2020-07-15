@@ -30,7 +30,7 @@
 #include <Arduino.h>
 #include "GY271_HMC5883L.h"
 
-/** Default constructor, uses scale +/- 1.3 Ga e MEASUREMENT_CONTINUOUS.
+/** Default constructor, uses scale +/- 1.3 Ga e MEASUREMENT_CONTINUOUS by default
  * 
  */
 HMC5883L::HMC5883L(){
@@ -41,19 +41,11 @@ HMC5883L::HMC5883L(){
     CalibrationOffsets = {0, 0, 0};
 }
 
-/** Specific scale and mode constructor
- * @param scale set magnetic field gain value (0.88, 1.3, 1.9, 2.5, 4.0, 4.7, 5.6, 8.1)
+/** Initialize the main settings about sensor
+ * @param gain set magnetic field gain value (0.88, 1.3, 1.9, 2.5, 4.0, 4.7, 5.6, 8.1)
  * @param mode set measurement mode (MEASUREMENT_CONTINUOUS, MEASUREMENT_SINGLE, MEASUREMENT_IDLE)
- * @see setScale()
- * @see setMeasurementMode()
+ * @param declination set declination angle in format [degree.minutes]
  */
-/*
-void HMC5883L::begin(float gain, uint8_t mode){
-    setGain(gain);
-    setMeasurementMode(mode);
-}
-*/
-
 void HMC5883L::begin(float gain, uint8_t mode, float declination){
     setGain(gain);
     setMeasurementMode(mode);
@@ -151,22 +143,6 @@ void HMC5883L::setMeasurementMode(uint8_t mode){
  * @param direction direction 'W' (WEST) or 'E' (EAST)
  * @see http://www.magnetic-declination.com/
  */
-/*
-void HMC5883L::setDeclinationAngle(int degree, int minute, char direction){
-    switch (direction){
-    case 'E':
-        DeclinationRadians = (float(abs(degree)) + float(minute/60.0)) * (M_PI / 180.0);
-        break;
-    case 'W':
-        DeclinationRadians = 0.0 - (float(abs(degree)) + float(minute/60.0)) * (M_PI / 180.0);
-        break;
-    default:
-        DeclinationRadians = 0.0;
-        break;
-    }
-}
-*/
-
 void HMC5883L::setDeclinationAngle(float declination){
     int degree = (int) declination;
     float minutes = (declination - degree) / 60.0;
