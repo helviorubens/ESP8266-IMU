@@ -36,4 +36,4 @@ If you prefer not to use the *Visual Studio Code*, the library and examples are 
 
 # HOW TO USE
 
-![how-to-use](https://drive.google.com/file/d/1Tm5F-_SiYsrMNq0iUvTe3KLhOdB2CoCz)
+![HowToUse](https://drive.google.com/uc?export=view&id=1L-K5pJV8laFztU87CuPY1b60U7e13Ihr)
