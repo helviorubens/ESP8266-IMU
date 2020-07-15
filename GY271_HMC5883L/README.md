@@ -24,7 +24,7 @@
 
 3. Type `git clone` and paste the URL you copied earlier.
 
-    `$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY`
+    `$ git clone https://github.com/helviorubens/ESP8266-IMU.git`
 
 4. Press ENTER to download and create your local clone repository
 
