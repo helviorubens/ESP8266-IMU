@@ -7,30 +7,30 @@
 # Datatypes (KEYWORD1)
 #######################################
 IMUBias	KEYWORD1
-IMURawData KEYWORD1
-IMUScaledData KEYWORD1
+IMURawData	KEYWORD1
+IMUScaledData	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-IMU KEYWORD2
-begin KEYWORD2
-calibrate KEYWORD2
-interruptStatus KEYWORD2
-getGyroRawData KEYWORD2
-getAccelRawData KEYWORD2
-getScaledGyro KEYWORD2
-getScaledAccel KEYWORD2
-getTempCelsius KEYWORD2
+IMU	KEYWORD2
+begin	KEYWORD2
+calibrate	KEYWORD2
+interruptStatus	KEYWORD2
+getGyroRawData	KEYWORD2
+getAccelRawData	KEYWORD2
+getScaledGyro	KEYWORD2
+getScaledAccel	KEYWORD2
+getTempCelsius	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
-AFS_2G LITERAL1
-AFS_4G LITERAL1
-AFS_8G LITERAL1
-AFS_16G LITERAL1
-GFS_250DPS LITERAL1
-GFS_500DPS LITERAL1
-GFS_1000DPS LITERAL1
-GFS_2000DPS LITERAL1
+AFS_2G	LITERAL1
+AFS_4G	LITERAL1
+AFS_8G	LITERAL1
+AFS_16G	LITERAL1
+GFS_250DPS	LITERAL1
+GFS_500DPS	LITERAL1
+GFS_1000DPS	LITERAL1
+GFS_2000DPS	LITERAL1
