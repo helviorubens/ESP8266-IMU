@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <IMU_MPU6050.h>
 
 const uint8_t INTERRUPT_PIN = 13;               // GPIO13/D7 on ESP8266

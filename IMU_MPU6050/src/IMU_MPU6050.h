@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "mpu6050_defines.h"
+#include "MPU6050_DEFINES.h"
 
 struct IMUBias{
     int32_t GyroX;
