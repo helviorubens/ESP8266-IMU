@@ -1,94 +1,40 @@
-/*****************************************************************************/
-//    Function:     Cpp file for HMC5883L
-//  Hardware:    Grove - 3-Axis Digital Compass
-//    Arduino IDE: Arduino-1.0
-//    Author:     FrankieChu
-//    Date:      Jan 10,2013
-//    Version: v1.0
-//    by www.seeedstudio.com
-//
-//  Modified by: Helvio Albuquerque
-//  Data:        July 11, 2020
-//  Description: change classes
-//
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Lesser General Public
-//  License as published by the Free Software Foundation; either
-//  version 2.1 of the License, or (at your option) any later version.
-//
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Lesser General Public License for more details.
-//
-//  You should have received a copy of the GNU Lesser General Public
-//  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
-/*******************************************************************************/
-
-#include <Arduino.h>
 #include "GY271_HMC5883L.h"
 
+// ----- CONSTRUCTORS
 /** Default constructor, uses scale +/- 1.3 Ga e MEASUREMENT_CONTINUOUS by default
  * 
  */
 HMC5883L::HMC5883L(){
-    GainRange = 1.3;
     GainResolution = 0.92;
     ModeRegister = "CONTINUOUS";
     DeclinationRadians = 0.0;
     CalibrationOffsets = {0, 0, 0};
 }
 
+// ----- INITIAL SETTINGS
 /** Initialize the main settings about sensor
  * @param gain set magnetic field gain value (0.88, 1.3, 1.9, 2.5, 4.0, 4.7, 5.6, 8.1)
  * @param mode set measurement mode (MEASUREMENT_CONTINUOUS, MEASUREMENT_SINGLE, MEASUREMENT_IDLE)
  * @param declination set declination angle in format [degree.minutes]
  */
-void HMC5883L::begin(float gain, uint8_t mode, float declination){
-    setGain(gain);
+void HMC5883L::begin(uint8_t range, uint8_t mode, float declination){
+    setGain(range);
     setMeasurementMode(mode);
     setDeclinationAngle(declination);
-}
-
-
-void HMC5883L::write(short address, short data)
-{
-    Wire.beginTransmission(HMC5883L_ADDRESS);
-    Wire.write(address);
-    Wire.write(data);
-    Wire.endTransmission();
-}
-
-uint8_t* HMC5883L::read(short address, short length)
-{
-    Wire.beginTransmission(HMC5883L_ADDRESS);
-    Wire.write(address);
-    Wire.endTransmission();
-
-    Wire.beginTransmission(HMC5883L_ADDRESS);
-    Wire.requestFrom(HMC5883L_ADDRESS, length);
-
-    uint8_t buffer[length];
-    
-    if(Wire.available() == length)
-    {
-        for(uint8_t i = 0; i < length; i++)
-        {
-            buffer[i] = Wire.read();
-        }
-    }
-    
-    Wire.endTransmission();
-    return buffer;
 }
 
 /** Set magnetic field gain value.
  * @param gain magnetic field gain value (0.88, 1.3, 1.9, 2.5, 4.0, 4.7, 5.6, 8.1)
  */
-void HMC5883L::setGain(float gain){
-    uint8_t regValue = 0x00;
+void HMC5883L::setGain(uint8_t range){
+    uint8_t gainBits[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+    float digitalResolutions[8] = {0.73, 0.92, 1.22, 1.52, 2.27, 2.56, 3.03, 4.35};
+
+    GainResolution = digitalResolutions[range];
+
+    uint8_t regValue = range;
+
+    /*
     int vectorSize = sizeof(gainRanges)/sizeof(gainRanges[0]);
     
     Serial.print("\t-----[vectorSize]: ");
@@ -98,6 +44,7 @@ void HMC5883L::setGain(float gain){
 
     Serial.print("\t-----[binaryIndex]: ");
     Serial.println(binaryIndex);
+    
 
     if((binaryIndex >= 0) && (binaryIndex <= vectorSize-1)){
         GainRange = gain;
@@ -108,7 +55,7 @@ void HMC5883L::setGain(float gain){
         GainRange = 1.3;
         GainResolution = 0.92;
         regValue = 0x01;
-    }
+    }*/
 
     // Setting is in the top 3 bits of the register.
     regValue = regValue << 5;
@@ -150,10 +97,11 @@ void HMC5883L::setDeclinationAngle(float declination){
     DeclinationRadians = float(degree + minutes) * (M_PI / 180.0);
 }
 
+// ----- CALIBRATION
 /** Begin compass calibration
  *  @return nothing
  */
-void HMC5883L::initCalibration(){
+void HMC5883L::calibrate(){
     MagnetometerScaled valueMax = {0, 0, 0};
     MagnetometerScaled valueMin = {0, 0, 0};
     int xcount = 0;
@@ -247,18 +195,24 @@ void HMC5883L::initCalibration(){
     CalibrationOffsets.ZAxis = (valueMax.ZAxis + valueMin.ZAxis) / 2.0;
 }
 
+// ----- MEASUREMENTS
 MagnetometerRaw HMC5883L::getRawAxis(){
-    uint8_t* buffer = read(DATA_REGISTER_BEGIN, 6);
     MagnetometerRaw raw = MagnetometerRaw();
+    uint8_t buffer[6] = {0};
+
+    read(DATA_REGISTER_BEGIN, buffer, 6);
+
     raw.XAxis = (buffer[0] << 8) | buffer[1];
     raw.ZAxis = (buffer[2] << 8) | buffer[3];
     raw.YAxis = (buffer[4] << 8) | buffer[5];
+
     return raw;
 }
 
 MagnetometerScaled HMC5883L::getScaledAxis(){
     MagnetometerRaw raw = getRawAxis();
-    MagnetometerScaled scaled = MagnetometerScaled();
+    MagnetometerScaled scaled = MagnetometerScaled(); // zero set
+
     scaled.XAxis = raw.XAxis * GainResolution;
     scaled.ZAxis = raw.ZAxis * GainResolution;
     scaled.YAxis = raw.YAxis * GainResolution;
@@ -269,13 +223,14 @@ MagnetometerScaled HMC5883L::getScaledAxis(){
 float HMC5883L::getCompassDegrees(){
     // Retrived the scaled values from the compass (scaled to the configured scale).
     MagnetometerScaled scaled = getScaledAxis();
+    float heading = 0.0;
 
     scaled.XAxis -= CalibrationOffsets.XAxis;
     scaled.YAxis -= CalibrationOffsets.YAxis;
     scaled.ZAxis -= CalibrationOffsets.ZAxis;
 
     // Calculate heading when the magnetometer is level, then correct for signs of axis.
-    float heading = atan2(scaled.YAxis, scaled.XAxis);
+    heading = atan2(scaled.YAxis, scaled.XAxis);
 
     // Once you have your heading, you must then add your 'Declination Angle', which is the 'Error' of the magnetic field in your location
     heading += DeclinationRadians;
@@ -292,43 +247,37 @@ float HMC5883L::getCompassDegrees(){
     return heading * (180/M_PI);
 }
 
-/** Recursive binary search
- * @return index of the searched value or error code
- * @param array ordered vector which will be the search
- * @param start initial search index
- * @param end final search index
- * @param value value to be found
- **/
-int HMC5883L::searchValueIndex(float *array, int start, int end, float value){
-    int searchIndex = 0;
-    bool conditionStart = value > array[start];
-    bool conditionEnd = value < array[end];
-
-    if (conditionStart && conditionEnd) {
-        searchIndex = (start + end) / 2;
-        
-        if (array[searchIndex] == value){
-            return searchIndex;
-        } else if (array[searchIndex] < value){
-            return searchValueIndex(array, searchIndex + 1, end, value);
-        } else {
-            return searchValueIndex(array, start, end - 1, value);
-        }
-    } else {
-        return BINARY_NOT_FOUND;
-    }
+// ----- COMMUNICATION
+void HMC5883L::write(int address, uint8_t data)
+{
+    Wire.beginTransmission(HMC5883L_ADDRESS);
+    Wire.write(address);
+    Wire.write(data);
+    Wire.endTransmission();
 }
 
-char* HMC5883L::getErrorText(int errorCode){
-    switch (errorCode){
-    case ERRORCODE_SCALE:
-        return "Scale value is not valid! The default value was chosen: 1.3 Ga. If you want to change it, please choose a proper scale value: 0.88, 1.3, 1.9, 2.5, 4.0, 4.7, 5.6, 8.1";
-        break;
-    case BINARY_NOT_FOUND:
-        return "Nothing found in binary search!";
-        break;
-    default:
-        return "Error not defined";
-        break;
+void HMC5883L::read(int address, uint8_t *data, int length)
+{
+    data[length] = {0};
+
+    Wire.beginTransmission(HMC5883L_ADDRESS);   // Initialize the Tx buffer
+    Wire.write(address);    // Put slave register address in Tx buffer
+    Wire.endTransmission(false);    // Send false the Tx buffer, but send a restart to keep connection alive
+    Wire.requestFrom(HMC5883L_ADDRESS, length); // Read bytes from slave register address
+    
+    if(Wire.available() == length){
+        for(uint8_t i = 0; i < length; i++){
+            data[i] = Wire.read(); // Put read results in the Rx buffer
+        }
     }
+    
+    Wire.endTransmission(true);
+}
+
+uint8_t HMC5883L::read(int address){
+    uint8_t data[1] = {0};
+
+    read(address, data, 1);
+
+    return data[0];
 }
