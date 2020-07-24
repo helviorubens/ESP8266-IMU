@@ -9,13 +9,12 @@
  * SCL ---------------------- A5 -------------- D1(GPIO5)
  * GND ---------------------- GND ------------- GND
  **/
-
-#include <Wire.h>
-#include <GY271_HMC5883L.h>
+#include "GY271_HMC5883L.h"
 
 const uint8_t LED_PIN = 2;                          // Use PIN 2 (D4 or BUILTIN_LED) on ESP8266
 
-float SENSOR_GAIN = 1.9;                            // GAINS: 0.88 / 1.3 / 1.9 / 2.5 / 4.0 / 4.7 / 5.6 / 8.1
+// Sensor field ranges: GN_0_88GA, GN_1_3GA, GN_1_9GA, GN_2_5GA, GN_4_0GA, GN_4_7GA, GN_5_6GA, GN_8_1GA
+uint8_t SENSOR_FIELD = GN_1_9GA;
 uint8_t MEASUREMENT = MEASUREMENT_CONTINUOUS;       // MEASUREMENT_CONTINUOUS / MEASUREMENT_SINGLE / MEASUREMENT_IDLE
 /** 
  *  Find your declination angle here: http://www.magnetic-declination.com/
@@ -26,6 +25,9 @@ float DECLINATION = -21.36;
 
 // Store our compass 
 HMC5883L compass;
+
+// Functions prototype
+void printGain(uint8_t field);
 
 // Out setup routine, here we will configure the microcontroller and compass.
 void setup(){
@@ -38,12 +40,13 @@ void setup(){
     delay(100);
 
     Serial.println("-----[STARTING HMC5883L]");
-    compass.begin(SENSOR_GAIN, MEASUREMENT, DECLINATION);
+    compass.begin(SENSOR_FIELD, MEASUREMENT, DECLINATION);
 
     delay(500);
 
     Serial.print("\t-----[Gain Range]: ");
-    Serial.print(compass.getGainRange()); Serial.println(" Ga");
+    printGain(SENSOR_FIELD);
+    //Serial.print(compass.getGainRange()); Serial.println(" Ga");
     Serial.print("\t-----[Gain Resolution]: ");
     Serial.print(compass.getGainResolution()); Serial.println(" mGa/LSb");
 
@@ -61,7 +64,7 @@ void setup(){
     Serial.println("-----[STARTING CALIBRATION]");
     Serial.println("\t-----[Please rotate the compass 3x around X, Y and Z axis]");
 
-    compass.initCalibration();
+    compass.calibrate();
 
     MagnetometerScaled compassOffset = compass.getCalibrationOffsets();
 
@@ -86,4 +89,36 @@ void loop(){
     // However since we have a long serial out (104ms at 9600) we will let
     // it run at its natural speed.
     delay(66);//of course it can be delayed longer.
+}
+
+void printGain(uint8_t field){
+    switch (field){
+        case GN_0_88GA:
+            Serial.print("0.88 Ga");
+            break;
+        case GN_1_3GA:
+            Serial.print("1.3 Ga");
+            break;
+        case GN_1_9GA:
+            Serial.print("1.9 Ga");
+            break;
+        case GN_2_5GA:
+            Serial.print("2.5 Ga");
+            break;
+        case GN_4_0GA:
+            Serial.print("4.0 Ga");
+            break;
+        case GN_4_7GA:
+            Serial.print("4.7 Ga");
+            break;
+        case GN_5_6GA:
+            Serial.print("5.6 Ga");
+            break;
+        case GN_8_1GA:
+            Serial.print("8.1 Ga");
+            break;
+        default:
+            Serial.print("Not defined!");
+            break;
+    }
 }
