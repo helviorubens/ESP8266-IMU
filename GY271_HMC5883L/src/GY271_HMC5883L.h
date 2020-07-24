@@ -1,32 +1,3 @@
-/*****************************************************************************/
-//  Function:     Header file for HMC5883L
-//  Hardware:    Grove - 3-Axis Digital Compass
-//  Arduino IDE: Arduino-1.0
-//  Author:     Frankie.Chu
-//  Date:      Jan 10,2013
-//  Version: v1.0
-//  by www.seeedstudio.com
-//
-//  Modified by: Helvio Albuquerque
-//  Data:        July 11, 2020
-//  Description: change classes
-//
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Lesser General Public
-//  License as published by the Free Software Foundation; either
-//  version 2.1 of the License, or (at your option) any later version.
-//
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Lesser General Public License for more details.
-//
-//  You should have received a copy of the GNU Lesser General Public
-//  License along with this library; if not, write to the Free Software
-//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
-/*******************************************************************************/
-
 #ifndef __GY271_HMC5883L_H__
 #define __GY271_HMC5883L_H__
 
@@ -43,8 +14,16 @@
 #define MEASUREMENT_SINGLE          0x01
 #define MEASUREMENT_IDLE            0x02
 
-#define ERRORCODE_SCALE             1
-#define BINARY_NOT_FOUND            -1
+enum FieldRange {
+    GN_0_88GA = 0,
+    GN_1_3GA,
+    GN_1_9GA,
+    GN_2_5GA,
+    GN_4_0GA,
+    GN_4_7GA,
+    GN_5_6GA,
+    GN_8_1GA
+};
 
 struct MagnetometerScaled{
     float XAxis;
@@ -60,39 +39,36 @@ struct MagnetometerRaw{
 
 class HMC5883L{        
     public:
+        // CONSTRUCTORS
         HMC5883L();
 
-        void begin(float gain, uint8_t mode, float declination);
+        // INITIAL SETTINGS
+        void begin(uint8_t range, uint8_t mode, float declination);
 
-        void setGain(float gain);
+        void setGain(uint8_t range);
         void setMeasurementMode(uint8_t mode);
         void setDeclinationAngle(float declination);
         
-        void initCalibration();
+        // CALIBRATION
+        void calibrate();
         
-        float getGainRange(){return GainRange;}
         float getGainResolution(){return GainResolution;}
         String getModeRegister(){return ModeRegister;}
         float getDeclinationRadians(){return DeclinationRadians;}
         MagnetometerScaled getCalibrationOffsets(){return CalibrationOffsets;}
 
+        // MEASUREMENTS
         MagnetometerRaw getRawAxis();
         MagnetometerScaled getScaledAxis();
         float getCompassDegrees();
-
-        int searchValueIndex(float *array, int start, int end, float value);
-        char* getErrorText(int errorCode);
         
     protected:
-        void write(short address, short byte);
-        uint8_t* read(short address, short length);
+        // COMMUNICATION
+        void write(int address, uint8_t data);
+        void read(int address, uint8_t *data, int length);
+        uint8_t read(int address);
 
     private:
-        float gainRanges[8] = {0.88, 1.3, 1.9, 2.5, 4.0, 4.7, 5.6, 8.1};
-        uint8_t gainBits[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
-        float gainResolutions[8] = {0.73, 0.92, 1.22, 1.52, 2.27, 2.56, 3.03, 4.35};
-
-        float GainRange;
         float GainResolution;
         String ModeRegister;
         float DeclinationRadians;
